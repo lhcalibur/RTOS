@@ -26,9 +26,9 @@ void *Memcore::MemcoreAlloc(size_t size)
 	void *ptr;
 	irqstate_t irqstate;
 
-	Sys.Irq.IrqSave(irqstate);
+	sys.irq.IrqSave(irqstate);
 	ptr = memcoreAllocI(size);
-	Sys.Irq.IrqRestore(irqstate);
+	sys.irq.IrqRestore(irqstate);
 	return ptr;
 }
 

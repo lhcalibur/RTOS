@@ -2,6 +2,6 @@
 
 int main(void)
 {
-	Sys Sys;
+	Sys sys;
 	return 0;
 }
