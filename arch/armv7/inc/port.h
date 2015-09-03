@@ -1,7 +1,7 @@
-#ifndef ARCH_ARM_PORT_H
-#define ARCH_ARM_PORT_H
+#ifndef ARCH_ARM_PORT_H_
+#define ARCH_ARM_PORT_H_
 
-#include <include/stdint.h>
+#include <include/types.h>
 /****************************************************************************
  * Inline functions
  ****************************************************************************/

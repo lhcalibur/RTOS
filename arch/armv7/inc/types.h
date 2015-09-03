@@ -1,5 +1,5 @@
-#ifndef __ARCH_ARM_INCLUDE_TYPES_H
-#define __ARCH_ARM_INCLUDE_TYPES_H
+#ifndef __ARCH_ARM_INCLUDE_TYPES_H_
+#define __ARCH_ARM_INCLUDE_TYPES_H_
 #ifndef __ASSEMBLY__
 
 /* These are the sizes of the standard integer types.  NOTE that these type

@@ -1,4 +1,4 @@
-#include <kernel.h>
+#include <sys/inc/kernel.h>
 #include <mm/inc/memcore.h>
 
 Memcore::Memcore(): Memory()

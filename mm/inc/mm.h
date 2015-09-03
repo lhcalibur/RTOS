@@ -1,5 +1,5 @@
-#ifndef RTOS_MM_H
-#define RTOS_MM_H
+#ifndef RTOS_MM_H_
+#define RTOS_MM_H_
 #include <mm/inc/memcore.h>
 class MM: private Memcore
 {
