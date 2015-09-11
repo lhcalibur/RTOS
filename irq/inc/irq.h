@@ -1,6 +1,7 @@
 #ifndef RTOS_IRQ_H_
 #define RTOS_IRQ_H_
-class Irq
+#include <arch/armv7/inc/port.h>
+class Irq: virtual private Port
 {
 private:
 #include <arch/armv7/inc/port.h>

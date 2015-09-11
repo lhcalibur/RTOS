@@ -1,5 +1,5 @@
 #CROSS_COMPILE	?= /Users/cooltouya/Programs/linaro-arm-none-eabi/bin/arm-none-eabi-
-CROSS_COMPILE	?= /Users/cooltouya/Programs/gcc-arm-none-eabi-4_9-2015q1/bin/arm-none-eabi-
+CROSS_COMPILE	?= /Users/cooltouya/Programs/gcc-arm-none-eabi-4_9-2015q2/bin/arm-none-eabi-
 DEBUG	?= 1
 USE_FPU	?= 1
 
@@ -18,7 +18,7 @@ LIB_DIR = lib
 MM_DIR = mm
 SYS_DIR = sys
 
-LINKER_DIR = $(LIB)/ldscript
+LINKER_DIR = $(LIB_DIR)/ldscript
 LDSCRIPT = $(LINKER_DIR)/flash.ld
 ######## Build Configuration ########
 VPATH += $(INIT_DIR)
