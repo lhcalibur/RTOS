@@ -3,8 +3,6 @@
 #include <arch/armv7/inc/port.h>
 class Irq: virtual private Port
 {
-private:
-#include <arch/armv7/inc/port.h>
 public:
 #include <include/types.h>
 	Irq() {}
