@@ -23,11 +23,13 @@ LDSCRIPT = $(LINKER_DIR)/flash.ld
 ######## Build Configuration ########
 VPATH += $(INIT_DIR)
 VPATH += $(MM_DIR)/src
+VPATH += $(IRQ_DIR)/src
 INCLUDES += -I.
 
 OBJ = main.o
 
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))
+OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(IRQ_DIR)/src/*.cpp)))
 ######## Compilation Configuration ########
 
 AS = $(CROSS_COMPILE)as
