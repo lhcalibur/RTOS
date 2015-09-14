@@ -1,6 +1,5 @@
 #ifndef __ARCH_ARM_INCLUDE_TYPES_H_
 #define __ARCH_ARM_INCLUDE_TYPES_H_
-#ifndef __ASSEMBLY__
 
 /* These are the sizes of the standard integer types.  NOTE that these type
  * names have a leading underscore character.  This file will be included
@@ -46,7 +45,6 @@ typedef unsigned short     irqstate_t;
 typedef unsigned int       irqstate_t;
 #endif /* __thumb2__ */
 
-#endif /* __ASSEMBLY__ */
 
 /****************************************************************************
  * Global Function Prototypes

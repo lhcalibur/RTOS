@@ -2,17 +2,13 @@
 #define ARCH_ARM_PORT_H_
 
 #include <include/types.h>
-/****************************************************************************
- * Inline functions
- ****************************************************************************/
-
-#ifndef __ASSEMBLY__
+#include <arch/armv7/inc/config.h>
 class Port
 {
 	public:
-		Port() {}
-		/* Get/set the PRIMASK register */
+		Port();		
 
+		/* Get/set the PRIMASK register */
 		inline uint8_t getprimask(void)
 		{
 			uint32_t primask;
@@ -71,13 +67,22 @@ class Port
 
 		inline void irqdisable(void)
 		{
+#ifdef CONFIG_ARMV7M_USEBASEPRI
+			setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
+#else
 			__asm__ __volatile__ ("\tcpsid  i\n");
+#endif
 		}
 
 		/* Save the current primask state & disable IRQs */
 
 		inline irqstate_t irqsave(void)
 		{
+#ifdef CONFIG_ARMV7M_USEBASEPRI
+			uint8_t basepri = getbasepri();
+			setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
+			return (irqstate_t)basepri;
+#else
 			unsigned short primask;
 
 			/* Return the current value of primask register and set
@@ -93,6 +98,7 @@ class Port
 				 : "memory");
 
 			return primask;
+#endif
 		}
 
 		/* Enable IRQs */
@@ -107,6 +113,9 @@ class Port
 
 		inline void irqrestore(irqstate_t flags)
 		{
+#ifdef CONFIG_ARMV7M_USEBASEPRI
+			setbasepri((uint32_t)flags);
+#else
 			/* If bit 0 of the primask is 0, then we need to restore
 			 * interrupts.
 			 */
@@ -120,6 +129,7 @@ class Port
 				 :
 				 : "r" (flags)
 				 : "memory");
+#endif
 		}
 
 		/* Get/set IPSR */
@@ -172,6 +182,5 @@ class Port
 				 : "memory");
 		}
 };
-#endif /* __ASSEMBLY__ */
 
 #endif /* ARCH_ARM_PORT_H */
