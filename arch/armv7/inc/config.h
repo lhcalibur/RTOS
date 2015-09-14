@@ -58,8 +58,9 @@
 #endif
 
 /************************************************************************/
-
-#define CONFIG_ARMV7_USE_FPU
-#define CONFIG_ARMV7_USEBASEPRI
+#ifndef __FPU_USED
+# define CONFIG_ARMV7_USE_FPU
+#endif
+# define CONFIG_ARMV7_USEBASEPRI
 
 #endif /* ARCH_ARMV7_CONFIG_H_ */

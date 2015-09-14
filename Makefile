@@ -1,7 +1,7 @@
 #CROSS_COMPILE	?= /Users/cooltouya/Programs/linaro-arm-none-eabi/bin/arm-none-eabi-
 CROSS_COMPILE	?= /Users/cooltouya/Programs/gcc-arm-none-eabi-4_9-2015q2/bin/arm-none-eabi-
 DEBUG	?= 1
-USE_FPU	?= 1
+USE_FPU	?= 0
 
 # Now #define for project
 ifeq ($(DEBUG), 1)
@@ -17,16 +17,22 @@ IRQ_DIR = irq
 LIB_DIR = lib
 MM_DIR = mm
 SYS_DIR = sys
+CMSIS_DIR = $(LIB_DIR)/CMSIS
 
 LINKER_DIR = $(LIB_DIR)/ldscript
 LDSCRIPT = $(LINKER_DIR)/flash.ld
 ######## Build Configuration ########
 VPATH += $(INIT_DIR)
+VPATH += $(CMSIS_DIR)/STM32F4xx/Source
+VPATH += $(LIB_DIR)
 VPATH += $(MM_DIR)/src
 VPATH += $(IRQ_DIR)/src
 INCLUDES += -I.
+INCLUDES += -I$(CMSIS_DIR)/Include -I$(CMSIS_DIR)/STM32F4xx/Include -I$(INCLUDE_DIR)
 
-OBJ = main.o
+OBJ = startup_stm32f411xe.o
+OBJ += system_stm32f4xx.o syscalls.o
+OBJ += main.o
 
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(IRQ_DIR)/src/*.cpp)))
@@ -47,7 +53,8 @@ endif
 #LIBS = --specs=rdimon.specs -Wl,--start-group -lgcc -lc -lm -lrdimon -lnosys -Wl,--end-group
 LIBS = 
 #STFLAGS = -DUSE_STM32F4XX_NUCLEO -DSTM32F411xE -DUSE_HAL_DRIVER -DHSE_VALUE=8000000 
-STFLAGS = 
+STFLAGS = -DSTM32F411xE -DSTM32F4XX -DSTM32F40_41xxx -DHSE_VALUE=8000000 -DUSE_STDPERIPH_DRIVER
+
 ifeq ($(USE_FPU), 1)
 STFLAGS += -D__FPU_USED
 endif
@@ -91,9 +98,11 @@ build: compile
 compile: $(PROG).elf $(PROG).bin $(PROG).hex
 
 CC_COMMAND = $(CC) $(CFLAGS) -c $< -o $(BIN)/$@
-.cpp.o:
-	@$(CC_COMMAND)
 .S.o:
+	@$(CC_COMMAND)
+.c.o:
+	@$(CC_COMMAND)
+.cpp.o:
 	@$(CC_COMMAND)
 
 LD_COMMAND = $(LD) $(LDFLAGS) $(foreach o,$(OBJ),$(BIN)/$(o)) -o $@

@@ -6,7 +6,7 @@
 class Port
 {
 	public:
-		Port();		
+		Port() {};	
 
 		/* Get/set the PRIMASK register */
 		inline uint8_t getprimask(void)
