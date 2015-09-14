@@ -28,6 +28,7 @@ VPATH += $(LIB_DIR)
 VPATH += $(ARCH_DIR)/src
 VPATH += $(MM_DIR)/src
 VPATH += $(IRQ_DIR)/src
+VPATH += $(LIB_DIR)/STM32F4xx_StdPeriph_Driver/src
 INCLUDES += -I.
 INCLUDES += -I$(CMSIS_DIR)/Include -I$(CMSIS_DIR)/STM32F4xx/Include -I$(INCLUDE_DIR)
 INCLUDES += -I$(LIB_DIR)/STM32F4xx_StdPeriph_Driver/inc
@@ -39,6 +40,12 @@ OBJ += main.o
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(IRQ_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(ARCH_DIR)/src/*.cpp)))
+
+ST_LIB_C = $(wildcard $(LIB_DIR)/STM32F4xx_StdPeriph_Driver/src/*.c)
+ST_LIB_O = $(patsubst %.c,%.o,$(notdir $(ST_LIB_C)))
+
+OBJ += $(ST_LIB_O)
+
 ######## Compilation Configuration ########
 
 AS = $(CROSS_COMPILE)as
@@ -46,6 +53,7 @@ CC = $(CROSS_COMPILE)g++
 LD = $(CROSS_COMPILE)g++
 SIZE = $(CROSS_COMPILE)size
 OBJCOPY = $(CROSS_COMPILE)objcopy
+AR = $(CROSS_COMPILE)ar
 
 ifeq ($(USE_FPU), 1)
 PROCESSOR = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
@@ -98,8 +106,8 @@ DEPS := $(foreach o,$(OBJ),$(BIN)/dep/$(o).d)
 
 all: build
 build: compile
-compile: $(PROG).elf $(PROG).bin $(PROG).hex
 
+compile: $(PROG).elf $(PROG).bin $(PROG).hex
 CC_COMMAND = $(CC) $(CFLAGS) -c $< -o $(BIN)/$@
 .S.o:
 	@$(CC_COMMAND)
@@ -111,6 +119,14 @@ CC_COMMAND = $(CC) $(CFLAGS) -c $< -o $(BIN)/$@
 LD_COMMAND = $(LD) $(LDFLAGS) $(foreach o,$(OBJ),$(BIN)/$(o)) -o $@
 $(PROG).elf: $(OBJ) $(LDSCRIPT)
 	@$(LD_COMMAND)
+
+AR_COMMAND = $(AR) rcs $(BIN)/$@ $(foreach o,$(ST_LIB_O),$(BIN)/$(o))
+st-lib.a: $(ST_LIB_O)
+	@$(AR_COMMAND)
+
+#$(ST_LIB_O): $(ST_LIB_C)
+#	@$(CC_COMMAND)
+
 
 HEX_COMMAND = $(OBJCOPY) $< -O ihex $@
 $(PROG).hex: $(PROG).elf
@@ -124,7 +140,7 @@ CLEAN_O_COMMAND = rm -f $(BIN)/*.o
 clean_o:
 	@$(CLEAN_O_COMMAND)
 
-CLEAN_COMMAND = rm -f $(PROG).elf $(PROG).bin $(PROG).hex $(PROG).map $(BIN)/dep/*.d
+CLEAN_COMMAND = rm -f $(PROG).elf $(PROG).bin $(PROG).hex $(PROG).map $(BIN)/dep/*.d $(BIN)/*.a
 clean: clean_o
 	@$(CLEAN_COMMAND)
 

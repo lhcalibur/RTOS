@@ -1,5 +1,6 @@
 #include <arch/armv7/inc/port.h>
 
+
 Port::Port()
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
