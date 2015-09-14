@@ -1,7 +1,6 @@
 #ifndef ARCH_ARMV7_MEMORY_H_
 #define ARCH_ARMV7_MEMORY_H_
 
-#include <include/types.h>
 extern uintptr_t	_ebss;
 extern uintptr_t	_estack;
 class Memory

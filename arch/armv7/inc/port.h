@@ -2,11 +2,12 @@
 #define ARCH_ARM_PORT_H_
 
 #include <include/types.h>
+#include <stm32f4xx.h>
 #include <arch/armv7/inc/config.h>
 class Port
 {
 	public:
-		Port() {};	
+		Port();	
 
 		/* Get/set the PRIMASK register */
 		inline uint8_t getprimask(void)

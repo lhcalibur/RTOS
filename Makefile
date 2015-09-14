@@ -25,10 +25,12 @@ LDSCRIPT = $(LINKER_DIR)/flash.ld
 VPATH += $(INIT_DIR)
 VPATH += $(CMSIS_DIR)/STM32F4xx/Source
 VPATH += $(LIB_DIR)
+VPATH += $(ARCH_DIR)/src
 VPATH += $(MM_DIR)/src
 VPATH += $(IRQ_DIR)/src
 INCLUDES += -I.
 INCLUDES += -I$(CMSIS_DIR)/Include -I$(CMSIS_DIR)/STM32F4xx/Include -I$(INCLUDE_DIR)
+INCLUDES += -I$(LIB_DIR)/STM32F4xx_StdPeriph_Driver/inc
 
 OBJ = startup_stm32f411xe.o
 OBJ += system_stm32f4xx.o syscalls.o
@@ -36,6 +38,7 @@ OBJ += main.o
 
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(IRQ_DIR)/src/*.cpp)))
+OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(ARCH_DIR)/src/*.cpp)))
 ######## Compilation Configuration ########
 
 AS = $(CROSS_COMPILE)as
