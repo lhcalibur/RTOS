@@ -3,4 +3,5 @@
 void Sys::init()
 {
 	port.init();
+	mm.init();
 }

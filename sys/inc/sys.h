@@ -14,5 +14,6 @@ private:
 public:
 	Sys() {}
 	void init();
+	void *malloc(size_t size) {return mm.malloc(size);}
 };
 #endif /* RTOS_SYS_H */

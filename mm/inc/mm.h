@@ -5,6 +5,7 @@ class MM: private Memcore
 {
 public:
 	MM(): Memcore() {}
+	void init() {Memcore::init();}
 	void *malloc(size_t size) {return MemcoreAlloc(size);}
 	void free(void *) {}
 };
