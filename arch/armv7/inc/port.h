@@ -1,13 +1,17 @@
 #ifndef ARCH_ARM_PORT_H_
 #define ARCH_ARM_PORT_H_
 
+#include "stm32f4xx_nucleo.h"
+#include "stm32f4xx_hal.h"
 #include <include/types.h>
-#include <stm32f4xx.h>
 #include <arch/armv7/inc/config.h>
 class Port
 {
 	public:
-		Port();	
+		Port() {}
+		void init();
+		static void SystemClock_Config();
+		static void Error_Handler();
 
 		/* Get/set the PRIMASK register */
 		inline uint8_t getprimask(void)

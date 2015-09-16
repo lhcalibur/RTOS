@@ -12,6 +12,7 @@ Sys sys;
 
 int main(void)
 {
+	sys.init();
 	return 0;
 }
 

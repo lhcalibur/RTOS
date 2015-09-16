@@ -13,5 +13,6 @@ private:
 	MM mm;
 public:
 	Sys() {}
+	void init();
 };
 #endif /* RTOS_SYS_H */

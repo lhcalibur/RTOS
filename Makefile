@@ -16,6 +16,7 @@ INCLUDE_DIR = include
 IRQ_DIR = irq
 LIB_DIR = lib
 MM_DIR = mm
+HAL_DIR = hal
 SYS_DIR = sys
 CMSIS_DIR = $(LIB_DIR)/CMSIS
 
@@ -26,22 +27,27 @@ VPATH += $(INIT_DIR)
 VPATH += $(CMSIS_DIR)/STM32F4xx/Source
 VPATH += $(LIB_DIR)
 VPATH += $(ARCH_DIR)/src
+VPATH += $(SYS_DIR)/src
 VPATH += $(MM_DIR)/src
 VPATH += $(IRQ_DIR)/src
-VPATH += $(LIB_DIR)/STM32F4xx_StdPeriph_Driver/src
+VPATH += $(HAL_DIR)/src
+VPATH += $(LIB_DIR)/STM32F4xx_HAL_Driver/Src
+VPATH += $(LIB_DIR)/BSP/STM32F4xx-Nucleo
 INCLUDES += -I.
 INCLUDES += -I$(CMSIS_DIR)/Include -I$(CMSIS_DIR)/STM32F4xx/Include -I$(INCLUDE_DIR)
-INCLUDES += -I$(LIB_DIR)/STM32F4xx_StdPeriph_Driver/inc
+INCLUDES += -I$(LIB_DIR)/STM32F4xx_HAL_Driver/Inc -I$(LIB_DIR)/BSP/STM32F4xx-Nucleo
 
 OBJ = startup_stm32f411xe.o
-OBJ += system_stm32f4xx.o syscalls.o
+OBJ += system_stm32f4xx.o stm32f4xx_nucleo.o syscalls.o
 OBJ += main.o
 
+OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(SYS_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(IRQ_DIR)/src/*.cpp)))
+OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(HAL_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(ARCH_DIR)/src/*.cpp)))
 
-ST_LIB_C = $(wildcard $(LIB_DIR)/STM32F4xx_StdPeriph_Driver/src/*.c)
+ST_LIB_C = $(wildcard $(LIB_DIR)/STM32F4xx_HAL_Driver/Src/*.c)
 ST_LIB_O = $(patsubst %.c,%.o,$(notdir $(ST_LIB_C)))
 
 OBJ += $(ST_LIB_O)
@@ -63,8 +69,8 @@ endif
 
 #LIBS = --specs=rdimon.specs -Wl,--start-group -lgcc -lc -lm -lrdimon -lnosys -Wl,--end-group
 LIBS = 
-#STFLAGS = -DUSE_STM32F4XX_NUCLEO -DSTM32F411xE -DUSE_HAL_DRIVER -DHSE_VALUE=8000000 
-STFLAGS = -DSTM32F411xE -DSTM32F4XX -DSTM32F40_41xxx -DHSE_VALUE=8000000 -DUSE_STDPERIPH_DRIVER
+#STFLAGS = -DUSE_STM32F4XX_NUCLEO -DSTM32F411xE -DUSE_HAL_DRIVER -DHSE_VALUE=8000000 -DUSE_STDPERIPH_DRIVER 
+STFLAGS = -DSTM32F411xE -DSTM32F4XX -DSTM32F40_41xxx -DHSE_VALUE=8000000 -DUSE_HAL_DRIVER -DUSE_STM32F4XX_NUCLEO
 
 ifeq ($(USE_FPU), 1)
 STFLAGS += -D__FPU_USED
