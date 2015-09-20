@@ -4,6 +4,7 @@
 class Irq
 {
 public:
+	static uint8_t irq_nestedcount;
 	Irq() {}
 	void IrqDisable();
 	void IrqEnable();

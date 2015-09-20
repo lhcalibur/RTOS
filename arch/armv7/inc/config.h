@@ -63,4 +63,8 @@
 #endif
 # define CONFIG_ARMV7_USEBASEPRI
 
+#ifndef CONFIG_SYS_NNEST
+#  define CONFIG_SYS_NNEST 2
+#endif
+
 #endif /* ARCH_ARMV7_CONFIG_H_ */

@@ -18,6 +18,8 @@ LIB_DIR = lib
 MM_DIR = mm
 HAL_DIR = hal
 SYS_DIR = sys
+TASK_DIR = task
+SCHED_DIR = sched
 CMSIS_DIR = $(LIB_DIR)/CMSIS
 
 LINKER_DIR = $(LIB_DIR)/ldscript
@@ -31,6 +33,8 @@ VPATH += $(SYS_DIR)/src
 VPATH += $(MM_DIR)/src
 VPATH += $(IRQ_DIR)/src
 VPATH += $(HAL_DIR)/src
+VPATH += $(TASK_DIR)/src
+VPATH += $(SCHED_DIR)/src
 VPATH += $(LIB_DIR)/STM32F4xx_HAL_Driver/Src
 VPATH += $(LIB_DIR)/BSP/STM32F4xx-Nucleo
 INCLUDES += -I.
@@ -46,6 +50,7 @@ OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(IRQ_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(HAL_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(ARCH_DIR)/src/*.cpp)))
+OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(TASK_DIR)/src/*.cpp)))
 
 ST_LIB_C = $(wildcard $(LIB_DIR)/STM32F4xx_HAL_Driver/Src/*.c)
 ST_LIB_O = $(patsubst %.c,%.o,$(notdir $(ST_LIB_C)))
@@ -85,7 +90,7 @@ endif
 
 CFLAGS += -std=c++0x -std=gnu++0x -std=c++11 
 #CFLAGS += $(PROCESSOR) $(INCLUDES) $(STFLAGS) -Wall -fno-strict-aliasing
-CFLAGS += $(PROCESSOR) $(INCLUDES) $(STFLAGS) -Wall 
+CFLAGS += $(PROCESSOR) $(INCLUDES) $(STFLAGS) -Wall -fpermissive
 
 #-Wextra -Wimplicit-function-declaration \
 	  -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes 

@@ -5,9 +5,100 @@
 #include "stm32f4xx_hal.h"
 #include <include/types.h>
 #include <arch/armv7/inc/config.h>
+#include <arch/armv7/inc/exc_return.h>
+#include <arch/armv7/inc/irq_cmnvector.h>
+#include <arch/armv7/inc/psr.h>
 class Port
 {
 	public:
+		/* Alternate register names *************************************************/
+
+#define REG_A1              REG_R0
+#define REG_A2              REG_R1
+#define REG_A3              REG_R2
+#define REG_A4              REG_R3
+#define REG_V1              REG_R4
+#define REG_V2              REG_R5
+#define REG_V3              REG_R6
+#define REG_V4              REG_R7
+#define REG_V5              REG_R8
+#define REG_V6              REG_R9
+#define REG_V7              REG_R10
+#define REG_SB              REG_R9
+#define REG_SL              REG_R10
+#define REG_FP              REG_R11
+#define REG_IP              REG_R12
+#define REG_SP              REG_R13
+#define REG_LR              REG_R14
+#define REG_PC              REG_R15
+
+		/* The PIC register is usually R10. It can be R9 is stack checking is enabled
+		 * or if the user changes it with -mpic-register on the GCC command line.
+		 */
+
+#define REG_PIC             REG_R10
+
+
+		/* This structure represents the return state from a system call */
+
+		struct xcpt_syscall_s
+		{
+			uint32_t excreturn;   /* The EXC_RETURN value */
+			uint32_t sysreturn;   /* The return PC */
+		};
+
+		/* The following structure is included in the TCB and defines the complete
+		 * state of the thread.
+		 */
+
+		struct xcptcontext
+		{
+#ifndef CONFIG_DISABLE_SIGNALS
+			/* The following function pointer is non-zero if there
+			 * are pending signals to be processed.
+			 */
+
+			void *sigdeliver; /* Actual type is sig_deliver_t */
+
+			/* These are saved copies of LR, PRIMASK, and xPSR used during
+			 * signal processing.
+			 */
+
+			uint32_t saved_pc;
+#ifdef CONFIG_ARMV7M_USEBASEPRI
+			uint32_t saved_basepri;
+#else
+			uint32_t saved_primask;
+#endif
+			uint32_t saved_xpsr;
+#ifdef CONFIG_BUILD_PROTECTED
+			uint32_t saved_lr;
+#endif
+
+# ifdef CONFIG_BUILD_PROTECTED
+			/* This is the saved address to use when returning from a user-space
+			 * signal handler.
+			 */
+
+			uint32_t sigreturn;
+
+# endif
+#endif
+
+			/* The following array holds the return address and the exc_return value
+			 * needed to return from each nested system call.
+			 */
+
+			uint8_t nsyscalls;
+			struct xcpt_syscall_s syscall[CONFIG_SYS_NNEST];
+
+
+			/* Register save area */
+
+			uint32_t regs[XCPTCONTEXT_REGS];
+		};
+
+
 		Port() {}
 		void init();
 		static void SystemClock_Config();
