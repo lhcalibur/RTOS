@@ -9,10 +9,8 @@ private:
 	uint8_t	*mem_base;
 	uint8_t	*mem_end;
 public:
-	Memory() {}
-	void init() { mem_base = (uint8_t *)&_ebss; \
-		mem_end = (uint8_t *)&_estack;}
-	uint8_t	*GetMembase() const {return mem_base;}
-	uint8_t	*GetMemend() const {return mem_end;}
+	Memory(): mem_base((uint8_t *)&_ebss), mem_end((uint8_t *)&_estack) {} 
+	uint8_t	*Memory_GetMembase() const {return mem_base;}
+	uint8_t	*Memory_GetMemend() const {return mem_end;}
 };
 #endif /* ARCH_ARMV7_MEMORY_H_ */

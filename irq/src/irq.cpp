@@ -1,23 +1,23 @@
 #include <sys/inc/kernel.h>
 #include <irq/inc/irq.h>
 
-void Irq::IrqDisable()
+void Irq::Irq_Disable()
 {
-	sys.port.irqdisable();
+	Port_Irqdisable();
 }
 
-void Irq::IrqEnable()
+void Irq::Irq_Enable()
 {
-	sys.port.irqenable();
+	Port_Irqenable();
 }
 
-void Irq::IrqSave(irqstate_t &irqstate)
+void Irq::Irq_Save(irqstate_t &irqstate)
 {
-	irqstate = sys.port.irqsave();
+	irqstate = Port_Irqsave();
 }
 
-void Irq::IrqRestore(const irqstate_t &irqstate)
+void Irq::Irq_Restore(const irqstate_t &irqstate)
 {
-	sys.port.irqrestore(irqstate);
+	Port_Irqrestore(irqstate);
 }
 

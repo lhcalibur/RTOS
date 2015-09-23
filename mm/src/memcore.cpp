@@ -1,9 +1,8 @@
 #include <sys/inc/kernel.h>
 #include <mm/inc/memcore.h>
 
-void Memcore::init()
+void Memcore::Memcore()
 {
-	Memory::init();
 	nextm = (uint8_t *)MEM_ALIGN_NEXT(GetMembase());
 	endm = (uint8_t *)MEM_ALIGN_PREV(GetMemend());
 }

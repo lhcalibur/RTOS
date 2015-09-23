@@ -5,21 +5,15 @@
 #include <mm/inc/mm.h>
 #include <task/inc/task.h>
 #include <sched/inc/sched.h>
-class Sys
+class Sys: private Port, private Irq, private MM, private Sched
 {
 private:
 	friend class Memcore;
 	friend class Irq;
-	Port port;
-	Irq irq;
-	MM mm;
-	Task task; // add init further
-	Sched sched;
+	// task?
 public:
-	Sys() {}
-	void init();
-	void *malloc(size_t size) {return mm.malloc(size);}
-	int TaskCreate(int priority, unsigned int stack_size, entry_t entry) {return task.TaskCreate(priority, stack_size, entry);}
-
+	Sys():Port(), Irq(), MM(), Sched();
+	void *malloc(size_t size) {return MM::malloc(size);}
+	int TaskCreate();
 };
 #endif /* RTOS_SYS_H */

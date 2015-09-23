@@ -99,13 +99,12 @@ class Port
 		};
 
 
-		Port() {}
-		void init();
+		Port();
 		static void SystemClock_Config();
 		static void Error_Handler();
 
 		/* Get/set the PRIMASK register */
-		inline uint8_t getprimask(void)
+		inline uint8_t Port_Getprimask(void)
 		{
 			uint32_t primask;
 			__asm__ __volatile__
@@ -118,7 +117,7 @@ class Port
 			return (uint8_t)primask;
 		}
 
-		inline void setprimask(uint32_t primask)
+		inline void Port_Setprimask(uint32_t primask)
 		{
 			__asm__ __volatile__
 				(
@@ -134,7 +133,7 @@ class Port
 		 * lower priority level as the BASEPRI value.
 		 */
 
-		inline uint8_t getbasepri(void)
+		inline uint8_t Port_Getbasepri(void)
 		{
 			uint32_t basepri;
 
@@ -148,7 +147,7 @@ class Port
 			return (uint8_t)basepri;
 		}
 
-		inline void setbasepri(uint32_t basepri)
+		inline void Port_Setbasepri(uint32_t basepri)
 		{
 			__asm__ __volatile__
 				(
@@ -161,7 +160,7 @@ class Port
 
 		/* Disable IRQs */
 
-		inline void irqdisable(void)
+		inline void Port_Irqdisable(void)
 		{
 #ifdef CONFIG_ARMV7M_USEBASEPRI
 			setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
@@ -172,7 +171,7 @@ class Port
 
 		/* Save the current primask state & disable IRQs */
 
-		inline irqstate_t irqsave(void)
+		inline irqstate_t Port_Irqsave(void)
 		{
 #ifdef CONFIG_ARMV7M_USEBASEPRI
 			uint8_t basepri = getbasepri();
@@ -199,7 +198,7 @@ class Port
 
 		/* Enable IRQs */
 
-		inline void irqenable(void)
+		inline void Port_Irqenable(void)
 		{
 			setbasepri(0);
 			__asm__ __volatile__ ("\tcpsie  i\n");
@@ -207,7 +206,7 @@ class Port
 
 		/* Restore saved primask state */
 
-		inline void irqrestore(irqstate_t flags)
+		inline void Port_Irqrestore(irqstate_t flags)
 		{
 #ifdef CONFIG_ARMV7M_USEBASEPRI
 			setbasepri((uint32_t)flags);
@@ -230,7 +229,7 @@ class Port
 
 		/* Get/set IPSR */
 
-		inline uint32_t getipsr(void)
+		inline uint32_t Port_Getipsr(void)
 		{
 			uint32_t ipsr;
 			__asm__ __volatile__
@@ -243,7 +242,7 @@ class Port
 			return ipsr;
 		}
 
-		inline void setipsr(uint32_t ipsr)
+		inline void Port_Setipsr(uint32_t ipsr)
 		{
 			__asm__ __volatile__
 				(
@@ -255,7 +254,7 @@ class Port
 
 		/* Get/set CONTROL */
 
-		inline uint32_t getcontrol(void)
+		inline uint32_t Port_Getcontrol(void)
 		{
 			uint32_t control;
 			__asm__ __volatile__
@@ -268,7 +267,7 @@ class Port
 			return control;
 		}
 
-		inline void setcontrol(uint32_t control)
+		inline void Port_Setcontrol(uint32_t control)
 		{
 			__asm__ __volatile__
 				(

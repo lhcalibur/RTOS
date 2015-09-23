@@ -1,7 +1,5 @@
 #include <sys/inc/sys.h>
 
-void Sys::init()
+Sys::Sys()
 {
-	port.init();
-	mm.init();
 }

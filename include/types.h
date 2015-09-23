@@ -11,6 +11,9 @@
 #undef  OK
 #define OK 0
 
+#undef NO
+#define NO 1
+
 
 typedef	unsigned long long  stkalign_t;
 
