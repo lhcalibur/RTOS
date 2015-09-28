@@ -15,8 +15,8 @@ private:
 	uint8_t	*endm;
 	void *memcoreAllocI(size_t size);
 public:
-	Memcore(): Memory();
-	void *MemcoreAlloc(size_t size);
-	size_t MemcoreStatus() const {return (size_t)(endm - nextm);}
+	Memcore();
+	void *Memcore_MemcoreAlloc(size_t size);
+	size_t Memcore_MemcoreStatus() const {return (size_t)(endm - nextm);}
 };
 #endif /* RTOS_MEMCORE_H */

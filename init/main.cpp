@@ -1,3 +1,4 @@
+#include <new>
 #include <sys/inc/sys.h>
 #include "stm32f4xx_hal.h"
 
@@ -13,7 +14,7 @@ Sys sys;
 
 int main(void)
 {
-	new(sys)Sys();
+	new(&sys)Sys();
 	BSP_LED_On(LED2);
 	return 0;
 }

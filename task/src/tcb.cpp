@@ -1,7 +1,8 @@
 #include <include/types.h>
+#include <sys/inc/kernel.h>
 #include <task/inc/task.h>
 
-Tcb::Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype)
+Tcb::Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype): task_start(taskstart), task_entry(entry), sched_priority(priority), init_priority(priority), task_state(TSTATE_TASK_INVALID), flags(0), need_resched(false),  adj_stack_size(0), stack_alloc_ptr(nullptr), adj_stack_ptr(nullptr)
 {
 	int ret;
 	
@@ -19,8 +20,4 @@ Tcb::Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype)
 		// add code herr
 	}
 
-	sys.sched.sched_lock();
-	sys.sched.LIST_ADD(sys.sched.task_inactive, *getthis());			
-	task_state = TSTATE_TASK_INACTIVE;
-	sys.sched.sched_unlock();
 }

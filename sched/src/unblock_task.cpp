@@ -8,24 +8,13 @@ void Sched::Sched_unblocktask(Task &task)
 	removeblocked(task);
 
 	ret = addtoactive(task);
-	// add code here
-	if (is_ininterrupt()) {
 
-	}else {
-		/* Update scheduler parameters */
-
-		sched_resume_scheduler(nexttcb);
-
-		/* Switch context to the context of the task at the head of the
-		 * ready to run list.
-		 */
-
-		up_switchcontext(rtcb->xcp.regs, nexttcb->xcp.regs);
-
-
+	if (ret == OK) {
+		if (Irq_Ininterrupt()) {
+			Sched_CurrentTask().Task_SetResched();
+		}else {
+			Sched_SwitchContext();
+		}
 	}
-
 	Irq_Restore(irq_flags);
 }
-	
-

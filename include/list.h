@@ -13,7 +13,7 @@
 #define LIST_EMPTY(list) list.list_empty()
 #define LIST_FOR_EACH_ENTRY(list, pos)	\
 		for (pos = &list.list_first_entry();	\
-				pos != (typeof pos)list.getthis();		\
+				pos != (decltype(pos))&list;		\
 				pos = &list.list_entry(pos->node.next))
 #define LIST_ADD_BEFORE(list, entry, obentry) list.list_add_before(entry.node, obentry.node)
 
@@ -22,6 +22,7 @@
 template <typename T>
 class Node
 {
+	private:
 	protected:
 	public:
 		T _entry;
@@ -47,11 +48,11 @@ class List: private Node<Type>
 		}
 
 		Node<Type> &node() {return (Node<Type> &)*this;}
+		List *getthis() {return this;}
 
 
 	public:
 		List(): Node<Type>((Type)*this) {}
-		List *getthis() {return this;}
 		static inline void INIT_LIST_HEAD(Node<Type> &entry) {entry.next = entry.prev = &entry;}
 		inline void list_add(Node<Type> &entry) {__list_add(&entry, &node(), node().next);}
 		inline void list_add_tail(Node<Type> &entry) {__list_add(&entry, node().prev, &node());}

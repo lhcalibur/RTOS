@@ -1,9 +1,10 @@
 #include <arch/armv7/inc/port.h>
+
 	.globl		exception_common
 
 	.syntax		unified
 	.thumb
-	.file		"up_exception.S"
+	.file		"exception.S"
 	.text
 	.type	exception_common, function
 	.thumb_func

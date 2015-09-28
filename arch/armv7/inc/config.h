@@ -58,6 +58,7 @@
 #endif
 
 /************************************************************************/
+#undef CONFIG_ARMV7_USE_FPU
 #ifndef __FPU_USED
 # define CONFIG_ARMV7_USE_FPU
 #endif

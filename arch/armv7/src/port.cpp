@@ -1,7 +1,7 @@
 #include <arch/armv7/inc/port.h>
 
 
-void Port::Port()
+Port::Port()
 {
 	HAL_Init();
 	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);

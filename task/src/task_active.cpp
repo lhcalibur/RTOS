@@ -1,10 +1,10 @@
-#include <sys/inc/kernel.h>
 #include <task/inc/task.h>
+#include <sys/inc/kernel.h>
 
-int Task::taskactive()
+int Task::taskactivate()
 {
 
-	Sched_unblocktask(*this);
+	sys.Sched_unblocktask(*this);
 
 	return OK;
 }

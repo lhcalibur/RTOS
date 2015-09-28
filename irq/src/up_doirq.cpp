@@ -3,14 +3,15 @@
 
 uint32_t *up_doirq(int irq, uint32_t *regs)
 {
-	/*
-	Irq::irq_nestedcount++;
-	sys.irq.irq_dispatch(irq, regs);
-	Irq::irq_nestedcount--;
-	if (sys.task.test_task_flag(NEED_RESCHED) && !Irq::irq_nestedcount)
-		return sys.task.pick_next_task();
-	else
+	if (!Irq::Irq_Ininterrupt())
+		sys.Sched_CurrentTask().Task_SetTopOfStack(regs);	
+	Irq::Irq_UpCount();
+	Irq::Irq_Dispatch(irq, regs);
+	Irq::Irq_DownCount();
+	if (!Irq::Irq_Ininterrupt() && !sys.Sched_locked() && sys.Sched_CurrentTask().Task_NeedResched()) { //Sched_locked?
+		sys.Sched_CurrentTask().Task_UnsetResched();
+		sys.Sched_CurrentTask().Task_SaveTcbState();
+		return sys.Sched_SetCurrentTask(sys.Sched_PickNext());
+	}else 
 		return regs;
-	*/
-	return 0;// temp
 }

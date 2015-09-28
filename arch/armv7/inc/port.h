@@ -200,7 +200,7 @@ class Port
 
 		inline void Port_Irqenable(void)
 		{
-			setbasepri(0);
+			Port_Setbasepri(0);
 			__asm__ __volatile__ ("\tcpsie  i\n");
 		}
 
@@ -209,7 +209,7 @@ class Port
 		inline void Port_Irqrestore(irqstate_t flags)
 		{
 #ifdef CONFIG_ARMV7M_USEBASEPRI
-			setbasepri((uint32_t)flags);
+			Port_Setbasepri((uint32_t)flags);
 #else
 			/* If bit 0 of the primask is 0, then we need to restore
 			 * interrupts.

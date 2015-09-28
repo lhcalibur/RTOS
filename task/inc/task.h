@@ -53,14 +53,28 @@ typedef enum tstate_e tstate_t;
 #define FIRST_BLOCKED_STATE      TSTATE_TASK_INACTIVE
 #define LAST_BLOCKED_STATE       (NUM_TASK_STATES-1)
 
-class Task;
 
 class Tcb
 {
-	private:
+	protected:
 		int createstack(size_t stack_size);
 		int init_state();
-		Tcb *getthis() {return this;} 
+		void savestate();
+		void restorestate();
+		void copyfullstate(uint32_t *dest, uint32_t *src)
+		{
+			int i;
+
+			if (src != dest)
+			{
+				for (i = 0; i < XCPTCONTEXT_REGS; i++)
+				{
+					*dest++ = *src++;
+				}
+			}
+		}
+		//Tcb *getthis() {return this;} 
+		static void taskstart() {} // fix
 	public:
 		typedef void (*start_t)(void);
 
@@ -71,33 +85,43 @@ class Tcb
 		uint8_t sched_priority;
 		uint8_t init_priority;
 
-		uint8_t task_state;
+		tstate_t task_state;
 
 		uint16_t flags;
+
+		bool need_resched;
 
 		size_t adj_stack_size;
 		void *stack_alloc_ptr;
 		void *adj_stack_ptr;
+		uint32_t *top_of_stack;
 
 		struct Port::xcptcontext xcp;
-		Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype): task_start(Task::taskstart), task_entry(entry), \
-										    sched_priority(priority), init_priority(priority), \
-																	task_state(TSTATE_TASK_INVALID), flags(0),  adj_stack_size(0), stack_alloc_ptr(nullptr), adj_stack_ptr(nullptr);
+		Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype);
 };
 
 class Task: private Tcb
 {
 	private:
+		friend class Sched;
 		int taskcreatetask(int priority, unsigned int stack_size, entry_t entry, uint8_t ttype);
-		int taskactive();
+		int taskactivate();
+		uint32_t *pregs() {return Tcb::xcp.regs;}
 	public:
 		Node<Task &> node;
-		Task(int priority, unsigned int stack_size, entry_t entry, uint8_t ttype): node(*this), Tcb(priority, stack_size, entry, ttype);
-		static void taskstart();
+		Task(int priority, unsigned int stack_size, entry_t entry, uint8_t ttype);
 		const tstate_t Task_State() const {return Tcb::task_state;}
 		void Task_SetState(tstate_t state) {Tcb::task_state = state;}
 		inline uint8_t Task_GetSchedPriority() {return Tcb::sched_priority;}
 		virtual uint8_t Task_GetTaskType() const = 0;
+		inline void Task_SaveTcbState() {Tcb::savestate();}
+		inline void Task_RestoreTcbState() {Tcb::restorestate();}
+		void Task_SetResched() {need_resched = true;}	// critical?
+		void Task_UnsetResched() {need_resched = false;} // critical?
+		bool Task_NeedResched() {return need_resched == true;} //critical?
+		uint32_t *Task_TopOfStack() {return Tcb::top_of_stack;}
+		void Task_SetTopOfStack(uint32_t *ptr) {Tcb::top_of_stack = ptr;}
+		
 };
 
 class UTask: virtual public Task
@@ -105,6 +129,6 @@ class UTask: virtual public Task
 	public:
 		UTask(int priority, unsigned int stack_size, entry_t entry): Task(priority, stack_size, entry, TCB_FLAG_TTYPE_TASK) {}
 		uint8_t Task_GetTaskType() {return TCB_FLAG_TTYPE_TASK;}
-}
+};
 
 #endif /* RTOS_TASK_H */

@@ -19,4 +19,7 @@ typedef	unsigned long long  stkalign_t;
 
 typedef unsigned int	    size_t;
 
+typedef _uintptr_t uintptr_t;
+typedef _intptr_t intptr_t;
+
 #endif /* RTOS_TYPES_H_ */

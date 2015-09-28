@@ -3,21 +3,21 @@
 
 void Irq::Irq_Disable()
 {
-	Port_Irqdisable();
+	sys.Port_Irqdisable();
 }
 
 void Irq::Irq_Enable()
 {
-	Port_Irqenable();
+	sys.Port_Irqenable();
 }
 
 void Irq::Irq_Save(irqstate_t &irqstate)
 {
-	irqstate = Port_Irqsave();
+	irqstate = sys.Port_Irqsave();
 }
 
 void Irq::Irq_Restore(const irqstate_t &irqstate)
 {
-	Port_Irqrestore(irqstate);
+	sys.Port_Irqrestore(irqstate);
 }
 
