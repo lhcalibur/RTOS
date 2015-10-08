@@ -1,22 +1,15 @@
 #include <arch/armv7/inc/port.h>
 
-	.globl		exception_common
+void exception_common(void)
+{
 
-	.syntax		unified
-	.thumb
-	.file		"exception.S"
-	.text
-	.type	exception_common, function
-	.thumb_func
-exception_common:
-
-	mrs		r0, ipsr				/* R0=exception number */
+	"\tmrs		r0, ipsr \n"				/* R0=exception number */
 
 	/* Complete the context save */
 
 	/* The EXC_RETURN value tells us whether the context is on the MSP or PSP */
 
-	tst		r14, #EXC_RETURN_PROCESS_STACK /* nonzero if context on process stack */
+	"\ttst		r14, #EXC_RETURN_PROCESS_STACK \n" /* nonzero if context on process stack */
 	beq		1f						/* Branch if context already on the MSP */
 	mrs		r1, psp					/* R1=The process stack pointer (PSP) */
 	mov     sp, r1					/* Set the MSP to the PSP */
@@ -168,6 +161,5 @@ exception_common:
 
 	bx		r14						/* And return */
 
-	.size	exception_common, .-exception_common
 
 
