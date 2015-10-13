@@ -41,6 +41,7 @@
  ************************************************************************************/
 
 #include <include/config.h>
+#include <arch/armv7/inc/port.h>
 
 #ifdef CONFIG_LIB_SYSCALL
 #  include <syscall.h>
@@ -137,6 +138,10 @@
 
 #endif /* CONFIG_BUILD_PROTECTED */
 #endif /* CONFIG_LIB_SYSCALL */
+
+extern void svc_switchcontext(void);
+
+extern void svc_restore_context(uint32_t *regs);
 
 /************************************************************************************
  * Inline Functions

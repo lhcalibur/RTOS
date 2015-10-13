@@ -15,6 +15,8 @@ private:
 	friend class Task;
 	friend uint32_t *up_doirq(int, uint32_t *);
 	friend int up_svcall(int, void *);
+	friend void Tcb::taskstart();
+	friend int svcall(int irq, void *context);
 	// task?
 public:
 	Sys();

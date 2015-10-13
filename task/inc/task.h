@@ -5,7 +5,9 @@
 #include <include/list.h>
 #include <include/config.h>
 
-typedef int (*entry_t)(int argc, char *argv[]);
+//typedef int (*entry_t)(int argc, char *argv[]);
+// furtherm
+typedef int (*entry_t)(void);
 
 /* Values for the Tcb flags bits */
 
@@ -54,8 +56,10 @@ typedef enum tstate_e tstate_t;
 #define LAST_BLOCKED_STATE       (NUM_TASK_STATES-1)
 
 
+
 class Tcb
 {
+	private:
 	protected:
 		int createstack(size_t stack_size);
 		int init_state();
@@ -73,14 +77,14 @@ class Tcb
 				}
 			}
 		}
-		//Tcb *getthis() {return this;} 
-		static void taskstart() {} // fix
 	public:
 		typedef void (*start_t)(void);
 
 
 		start_t task_start;
 		entry_t	task_entry;
+
+		static void taskstart();
 
 		uint8_t sched_priority;
 		uint8_t init_priority;
@@ -121,6 +125,7 @@ class Task: private Tcb
 		bool Task_NeedResched() {return need_resched == true;} //critical?
 		uint32_t *Task_TopOfStack() {return Tcb::top_of_stack;}
 		void Task_SetTopOfStack(uint32_t *ptr) {Tcb::top_of_stack = ptr;}
+		entry_t Task_Entry() {return Tcb::task_entry;}
 		
 };
 

@@ -2,7 +2,7 @@
 #include <task/inc/task.h>
 #include <sys/inc/kernel.h>
 
-Task::Task(int priority, unsigned int stack_size, entry_t entry, uint8_t ttype): node(*this), Tcb(priority, stack_size, entry, ttype)
+Task::Task(int priority, unsigned int stack_size, entry_t entry, uint8_t ttype):  Tcb(priority, stack_size, entry, ttype), node(*this)
 {
 	int ret;
 	int errcode;

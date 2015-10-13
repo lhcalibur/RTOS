@@ -44,7 +44,7 @@ INCLUDES += -I$(LIB_DIR)/STM32F4xx_HAL_Driver/Inc -I$(LIB_DIR)/BSP/STM32F4xx-Nuc
 OBJ = startup_stm32f411xe.o
 OBJ += system_stm32f4xx.o stm32f4xx_nucleo.o syscalls.o
 OBJ += main.o
-OBJ += exception.o #restorecontext.o switchcontext.o
+OBJ += exception.o restorecontext.o switchcontext.o
 
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(SYS_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MM_DIR)/src/*.cpp)))

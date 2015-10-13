@@ -1,4 +1,5 @@
 #include <sched/inc/sched.h>
+#include <arch/armv7/inc/svcall.h>
 
 void Sched::Sched_SwitchContext()
 {
