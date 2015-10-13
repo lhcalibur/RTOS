@@ -117,7 +117,7 @@ class Task: private Tcb
 		const tstate_t Task_State() const {return Tcb::task_state;}
 		void Task_SetState(tstate_t state) {Tcb::task_state = state;}
 		inline uint8_t Task_GetSchedPriority() {return Tcb::sched_priority;}
-		virtual uint8_t Task_GetTaskType() const = 0;
+		//virtual uint8_t Task_GetTaskType() const = 0;
 		inline void Task_SaveTcbState() {Tcb::savestate();}
 		inline void Task_RestoreTcbState() {Tcb::restorestate();}
 		void Task_SetResched() {need_resched = true;}	// critical?
@@ -135,5 +135,13 @@ class UTask: virtual public Task
 		UTask(int priority, unsigned int stack_size, entry_t entry): Task(priority, stack_size, entry, TCB_FLAG_TTYPE_TASK) {}
 		uint8_t Task_GetTaskType() {return TCB_FLAG_TTYPE_TASK;}
 };
+
+class KTask: virtual public Task
+{
+	public:
+		KTask(int priority, unsigned int stack_size, entry_t entry): Task(priority, stack_size, entry, TCB_FLAG_TTYPE_KERNEL) {}
+		uint8_t Task_GetTaskType() {return TCB_FLAG_TTYPE_KERNEL;}
+};
+
 
 #endif /* RTOS_TASK_H */

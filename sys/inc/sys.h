@@ -9,6 +9,7 @@
 class Sys: private Port, private Irq, private MM, private Sched
 {
 private:
+	static void idle_task() {}
 	friend class Memcore;
 	friend class Irq;
 	friend class Sched;
@@ -17,7 +18,7 @@ private:
 	friend int up_svcall(int, void *);
 	friend void Tcb::taskstart();
 	friend int svcall(int irq, void *context);
-	// task?
+	KTask Idle_Process;
 public:
 	Sys();
 	void *malloc(size_t size) {return MM::malloc(size);}

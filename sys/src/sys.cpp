@@ -1,7 +1,8 @@
 #include <sys/inc/sys.h>
 
-Sys::Sys():Port(), Irq(), MM(), Sched()
+uint8_t Irq::irq_nestedcount = 0;
+Task *Sched::current_task = nullptr;
+
+Sys::Sys():Port(), Irq(), MM(), Sched(), idle_process(0, 128, idle_task)
 {
-	//Irq::irq_nestedcount = 0;
-	//current_task = nullptr;
 }
