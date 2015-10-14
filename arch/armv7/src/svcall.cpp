@@ -77,6 +77,7 @@ int svcall(int irq, void *context)
 
       case SYS_switch_context:
         {
+		DEBUG_PRINT("In svcall:SYS_switch_context.\n");
 		sys.Sched_CurrentTask().Task_SetResched();
         }
         break;

@@ -8,6 +8,7 @@
 #include <arch/armv7/inc/exc_return.h>
 #include <arch/armv7/inc/irq_cmnvector.h>
 #include <arch/armv7/inc/psr.h>
+#include <drivers/inc/uart.h>
 class Port
 {
 	public:
@@ -163,7 +164,7 @@ class Port
 		inline void Port_Irqdisable(void)
 		{
 #ifdef CONFIG_ARMV7M_USEBASEPRI
-			setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
+			Port_Setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
 #else
 			__asm__ __volatile__ ("\tcpsid  i\n");
 #endif
@@ -174,8 +175,8 @@ class Port
 		inline irqstate_t Port_Irqsave(void)
 		{
 #ifdef CONFIG_ARMV7M_USEBASEPRI
-			uint8_t basepri = getbasepri();
-			setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
+			uint8_t basepri = Port_Getbasepri();
+			Port_Setbasepri(NVIC_SYSH_DISABLE_PRIORITY);
 			return (irqstate_t)basepri;
 #else
 			unsigned short primask;

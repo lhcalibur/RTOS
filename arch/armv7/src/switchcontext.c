@@ -4,10 +4,9 @@ void svc_switchcontext(void)
 {
 	__asm__ __volatile__ (
 
-	"\tmov		r0, %0\n"	/* R0: context switch */
-	"\tsvc		0\n"						/* Force synchronous SVCall (or Hard Fault) */
-
-	/* We will get here only after the rerturn from the context switch */
+	"\tmov		r0, %0\n"	
+	"\tsvc 0	\n"						
+	"\tnop		\n"
 
 	"\tbx		lr\n"
 	:: "i" ( SYS_switch_context ):

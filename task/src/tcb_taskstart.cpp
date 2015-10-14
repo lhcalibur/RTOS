@@ -5,6 +5,7 @@
 void Tcb::taskstart()
 {
 	int exitcode;
+	DEBUG_PRINT("In Tcb:taskstart.\n");
 	entry_t maint = sys.Sched_CurrentTask().Task_Entry();
 
 

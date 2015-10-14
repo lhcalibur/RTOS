@@ -10,6 +10,10 @@ Tcb::Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype): task_st
 	if (ret < OK) {
 		// add code herr
 	}
+	DEBUG_PRINT("Tcb:createstack(stack_size) OK\n");
+	DEBUG_PRINT("\tstack_size:%ld\n",(uint32_t)stack_size);
+	DEBUG_PRINT("\tadj_stack_ptr:%ld\n",(uint32_t)adj_stack_ptr);
+	DEBUG_PRINT("\tadj_stack_size:%ld\n",(uint32_t)adj_stack_size);
 
 	ttype &= TCB_FLAG_TTYPE_MASK;
 	flags &= ~TCB_FLAG_TTYPE_MASK;
@@ -19,5 +23,5 @@ Tcb::Tcb(int priority, size_t stack_size, entry_t entry, uint8_t ttype): task_st
 	if (ret < OK) {
 		// add code herr
 	}
-
+	DEBUG_PRINT("Tcb:init_state() OK\n");
 }

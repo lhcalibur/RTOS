@@ -5,11 +5,14 @@ int Sched::addtoactive(Task &task)
 	Task *pos;
 	uint8_t task_priority;
 	task_priority = task.Task_GetSchedPriority();
+	DEBUG_PRINT("addtoactive:task_priority:%d\n",task_priority);
 	task.Task_SetState(TSTATE_TASK_READYTORUN);
 
 	if (LIST_EMPTY(task_active)) {			// furtherm
 		LIST_ADD(task_active, task);
+		DEBUG_PRINT("LIST_EMPTY:LIST_ADD to task_active OK\n");
 		Sched_SetCurrentTask(task);
+		DEBUG_PRINT("It's the first task.\n");
 		return OK;
 	}else {
 

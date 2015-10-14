@@ -5,6 +5,7 @@ USE_FPU	?= 0
 
 # Now #define for project
 ifeq ($(DEBUG), 1)
+	CFLAGS += -DDEBUG_PRINT_ON_UART
 else
 endif
 
@@ -21,6 +22,7 @@ SYS_DIR = sys
 TASK_DIR = task
 SCHED_DIR = sched
 CMSIS_DIR = $(LIB_DIR)/CMSIS
+DRIVERS_DIR = drivers
 
 LINKER_DIR = $(LIB_DIR)/ldscript
 LDSCRIPT = $(LINKER_DIR)/flash.ld
@@ -37,6 +39,7 @@ VPATH += $(TASK_DIR)/src
 VPATH += $(SCHED_DIR)/src
 VPATH += $(LIB_DIR)/STM32F4xx_HAL_Driver/Src
 VPATH += $(LIB_DIR)/BSP/STM32F4xx-Nucleo
+VPATH += $(DRIVERS_DIR)/src
 INCLUDES += -I.
 INCLUDES += -I$(CMSIS_DIR)/Include -I$(CMSIS_DIR)/STM32F4xx/Include -I$(INCLUDE_DIR)
 INCLUDES += -I$(LIB_DIR)/STM32F4xx_HAL_Driver/Inc -I$(LIB_DIR)/BSP/STM32F4xx-Nucleo
@@ -53,6 +56,7 @@ OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(HAL_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(ARCH_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(TASK_DIR)/src/*.cpp)))
 OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(SCHED_DIR)/src/*.cpp)))
+OBJ += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(DRIVERS_DIR)/src/*.cpp)))
 
 ST_LIB_C = $(wildcard $(LIB_DIR)/STM32F4xx_HAL_Driver/Src/*.c)
 ST_LIB_O = $(patsubst %.c,%.o,$(notdir $(ST_LIB_C)))

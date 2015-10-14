@@ -15,10 +15,13 @@ Task::Task(int priority, unsigned int stack_size, entry_t entry, uint8_t ttype):
 	}
 	*/
 	
-	Sched::Sched_lock();
+	Sys::Sched_lock();
 	sys.task_inactive.list_add(this->node);			
 	task_state = TSTATE_TASK_INACTIVE;
-	Sched::Sched_unlock();
+	DEBUG_PRINT("Task:task_inactive.list_add(this->node) OK\n");
+	DEBUG_PRINT("\tthis:%ld\n",(uint32_t)this);
+	Sys::Sched_unlock();
+	//BSP_LED_On(LED2);
 
 	// add argv setup
 

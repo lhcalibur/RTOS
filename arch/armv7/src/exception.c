@@ -1,5 +1,7 @@
 #include <arch/armv7/inc/port.h>
 
+extern uint32_t *up_doirq(int irq, uint32_t *regs);
+
 void exception_common(void)
 {
 	__asm__ __volatile__ 
@@ -38,7 +40,8 @@ void exception_common(void)
 #endif
 		"\tmov		r1, sp\n"
 
-		"\tbl		up_doirq\n"				
+		//"\tbl		up_doirq\n"				
+		"\tbl		%4\n"				
 		"\tmrs		r1, msp\n"					
 		"\tcmp		r0, r1\n"					
 		"\tbeq		2f\n"						
@@ -94,7 +97,7 @@ void exception_common(void)
 #endif
 
 		"\tbx		r14\n"						
-		:: "i" ( EXC_RETURN_PROCESS_STACK ),  "i" ( HW_XCPT_SIZE ), "i" ( SW_XCPT_SIZE ), "i" ( 4*REG_SP ): "cc"  );
+		:: "i" ( EXC_RETURN_PROCESS_STACK ),  "i" ( HW_XCPT_SIZE ), "i" ( SW_XCPT_SIZE ), "i" ( 4*REG_SP ), "i" ( up_doirq ): "cc"  );
 }
 
 

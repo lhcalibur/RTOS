@@ -62,7 +62,8 @@
 #ifndef __FPU_USED
 # define CONFIG_ARMV7_USE_FPU
 #endif
-# define CONFIG_ARMV7_USEBASEPRI
+
+#define CONFIG_ARMV7M_USEBASEPRI
 
 #ifndef CONFIG_SYS_NNEST
 #  define CONFIG_SYS_NNEST 2

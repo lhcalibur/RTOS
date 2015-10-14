@@ -41,8 +41,10 @@
 #include "stm32f4xx_hal.h"
 #include <hal/inc/stm32f4xx_it.h>
 
+#include <arch/armv7/inc/port.h>
    
 extern void xPortSysTickHandler(void);
+extern void exception_common(void);
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -69,6 +71,7 @@ extern void xPortSysTickHandler(void);
   */
 void NMI_Handler(void)
 {
+	DEBUG_PRINT("NMI_Handler.\n");
 }
 
 /**
@@ -78,6 +81,7 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
+	DEBUG_PRINT("HardFault_Handler.\n");
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
   {
@@ -91,6 +95,7 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
+	DEBUG_PRINT("MemManage_Handler.\n");
   /* Go to infinite loop when Memory Manage exception occurs */
   while (1)
   {
@@ -104,6 +109,7 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
+	DEBUG_PRINT("BusFault_Handler.\n");
   /* Go to infinite loop when Bus Fault exception occurs */
   while (1)
   {
@@ -117,6 +123,7 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
+	DEBUG_PRINT("UsageFault_Handler.\n");
   /* Go to infinite loop when Usage Fault exception occurs */
   while (1)
   {
@@ -128,11 +135,11 @@ void UsageFault_Handler(void)
   * @param  None
   * @retval None
   */
-/*
 void SVC_Handler(void)
 {
+	DEBUG_PRINT("In SVC_Handler.\n");
+	exception_common();
 }
-*/
 /**
   * @brief  This function handles Debug Monitor exception.
   * @param  None
@@ -140,6 +147,7 @@ void SVC_Handler(void)
   */
 void DebugMon_Handler(void)
 {
+	DEBUG_PRINT("DebugMon_Handler.\n");
 }
 
 /**
@@ -147,11 +155,10 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-/*
 void PendSV_Handler(void)
 {
+	DEBUG_PRINT("In PendSV_Handler.\n");
 }
-*/
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
@@ -159,6 +166,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+	//DEBUG_PRINT("In SysTick_Handler.\n");
     /* USER CODE BEGIN SysTick_IRQn 0 */
     
     /* USER CODE END SysTick_IRQn 0 */

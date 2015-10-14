@@ -15,7 +15,8 @@ Sys sys;
 int main(void)
 {
 	new(&sys)Sys();
-	BSP_LED_On(LED2);
+	//BSP_LED_On(LED2);
+	while (1);
 	return 0;
 }
 

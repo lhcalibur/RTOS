@@ -4,10 +4,10 @@
 Port::Port()
 {
 	HAL_Init();
-	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
-
 	//NVIC_SetPriority(SVCall_IRQn, NVIC_SYSH_SVCALL_PRIORITY);
-	//NVIC_EnableIRQ(SVCall_IRQn);
+	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+	USART2_UART_Init();
+
 	//NVIC_EnableIRQ(SysTick_IRQn);
 }
 
